@@ -12,7 +12,6 @@ from bleak_retry_connector import close_stale_connections_by_address
 
 from homeassistant.components import bluetooth
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.update_coordinator import (
     CoordinatorEntity,
     DataUpdateCoordinator,

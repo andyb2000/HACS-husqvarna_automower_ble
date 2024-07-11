@@ -7,19 +7,17 @@ import logging
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorEntity,
-    SensorEntityDescription,
     SensorStateClass,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import PERCENTAGE,UnitOfLength,UnitOfTime
+from homeassistant.const import PERCENTAGE,UnitOfTime
 from homeassistant.core import HomeAssistant, callback
-from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN, MANUFACTURER
-from .coordinator import HusqvarnaAutomowerBleEntity, HusqvarnaCoordinator
+from .const import DOMAIN
+from .coordinator import HusqvarnaCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 

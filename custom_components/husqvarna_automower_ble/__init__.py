@@ -50,11 +50,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     serial = await mower.command("GetSerialNumber")
     LOGGER.info("Connected to Automower: %s", model)
 
-    device_info = DeviceInfo(
-        identifiers={(DOMAIN, str(address) + str(channel_id))},
-        manufacturer=MANUFACTURER,
-        model=model,
-    )
+#    device_info = DeviceInfo(
+#        identifiers={(DOMAIN, str(address) + str(channel_id))},
+#        manufacturer=MANUFACTURER,
+#        model=model,
+#    )
 
     #coordinator = HusqvarnaCoordinator(hass, mower, device_info, address, model)
     coordinator = HusqvarnaCoordinator(hass, mower, address, model, channel_id, serial)

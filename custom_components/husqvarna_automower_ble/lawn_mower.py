@@ -10,14 +10,10 @@ from homeassistant.components.lawn_mower import (
     LawnMowerEntity,
     LawnMowerEntityFeature,
 )
-from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import PERCENTAGE
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
-
-from datetime import datetime
 
 from .const import DOMAIN, MANUFACTURER
 from .coordinator import HusqvarnaAutomowerBleEntity, HusqvarnaCoordinator
@@ -56,7 +52,7 @@ class AutomowerLawnMower(HusqvarnaAutomowerBleEntity, LawnMowerEntity):
 
     def __init__(
         self,
-        coordinator: Coordinator,
+        coordinator: HusqvarnaCoordinator,
         unique_id: str,
         name: str,
         features: LawnMowerEntityFeature = LawnMowerEntityFeature(0),
