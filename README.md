@@ -13,11 +13,11 @@ https://github.com/alistair23/AutoMower-BLE
 ## Installation
 Install via HACS
 
-# 🏗️ IInstallation
+# Installation
 Just add this repo to the custom repos in HACS (https://hacs.xyz/docs/faq/custom_repositories/) and you're good to go. You should now see the integration in HACS where you can download the latest version.
 Restart home assistant to load the new integration
 
-# 🛠️ Usage
+# Usage
 
 BEFORE you add the new integration, you need to have your bluetooth proxy setup.
 In ESPHome setup an ESP32 BLE proxy, the config in ESPHome should look like:
