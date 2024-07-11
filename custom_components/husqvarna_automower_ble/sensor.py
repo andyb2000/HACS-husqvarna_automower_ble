@@ -41,7 +41,7 @@ MOWER_SENSORS = [
         state_class=None,
         sensor_class=None,
         entity_category=None,
-        sensor_icon=mdi:timer",
+        sensor_icon="mdi:timer",
     ),
     SensoryEntityDescription(
         name="Total running time",
