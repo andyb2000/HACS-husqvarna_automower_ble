@@ -12,7 +12,17 @@ https://github.com/alistair23/AutoMower-BLE
 Install via HACS
 
 # Installation
-Just add this repo to the custom repos in HACS (https://hacs.xyz/docs/faq/custom_repositories/) and you're good to go. You should now see the integration in HACS where you can download the latest version.
+Just add this repo to the custom repos in HACS (https://hacs.xyz/docs/faq/custom_repositories/).
+
+You can do this by going to your HACS menu on the left of Home Assistant, go into INTEGRATIONS.
+At the top right you should have the 3 dots, click and choose CUSTOM REPOSITORIES.
+
+In the "Repository" input box, paste this git folder:
+https://github.com/andyb2000/HACS-husqvarna_automower_ble
+Choose "Integration" from category and click ADD.
+It should add and you can close the Repository input box.
+
+You should now see the integration in HACS where you can download the latest version, or search for "Husqvarna Automower BLE".
 Restart home assistant to load the new integration
 
 # Usage
