@@ -28,8 +28,7 @@ MOWER_SENSORS = [
         key="battery_level",
         unit_of_measurement=PERCENTAGE,
         device_class=SensorDeviceClass.BATTERY,
-        state_class=None,
-        sensor_class=SensorStateClass.MEASUREMENT,
+        state_class=SensorStateClass.MEASUREMENT,
         entity_category=None,
         sensor_icon="mdi:battery",
     ),
@@ -39,7 +38,6 @@ MOWER_SENSORS = [
         unit_of_measurement=None,
         device_class=None,
         state_class=None,
-        sensor_class=None,
         entity_category=None,
         sensor_icon="mdi:timer",
     ),
@@ -49,7 +47,6 @@ MOWER_SENSORS = [
         unit_of_measurement=UnitOfTime.SECONDS,
         device_class=SensorDeviceClass.DURATION,
         state_class=SensorStateClass.TOTAL,
-        sensor_class=None,
         entity_category=EntityCategory.DIAGNOSTIC,
         sensor_icon="mdi:timer",
     ),
@@ -59,7 +56,6 @@ MOWER_SENSORS = [
         unit_of_measurement=UnitOfTime.SECONDS,
         device_class=SensorDeviceClass.DURATION,
         state_class=SensorStateClass.TOTAL,
-        sensor_class=None,
         entity_category=EntityCategory.DIAGNOSTIC,
         sensor_icon="mdi:timer",
     ),
@@ -69,7 +65,6 @@ MOWER_SENSORS = [
         unit_of_measurement=UnitOfTime.SECONDS,
         device_class=SensorDeviceClass.DURATION,
         state_class=SensorStateClass.TOTAL,
-        sensor_class=None,
         entity_category=EntityCategory.DIAGNOSTIC,
         sensor_icon="mdi:timer",
     ),
@@ -79,7 +74,6 @@ MOWER_SENSORS = [
         unit_of_measurement=UnitOfTime.SECONDS,
         device_class=SensorDeviceClass.DURATION,
         state_class=SensorStateClass.TOTAL,
-        sensor_class=None,
         entity_category=EntityCategory.DIAGNOSTIC,
         sensor_icon="mdi:timer",
     ),
@@ -89,7 +83,6 @@ MOWER_SENSORS = [
         unit_of_measurement=None,
         device_class=None,
         state_class=SensorStateClass.TOTAL,
-        sensor_class=None,
         entity_category=EntityCategory.DIAGNOSTIC,
         sensor_icon="mdi:crash",
     ),
@@ -99,7 +92,6 @@ MOWER_SENSORS = [
         unit_of_measurement=None,
         device_class=None,
         state_class=SensorStateClass.TOTAL,
-        sensor_class=None,
         entity_category=EntityCategory.DIAGNOSTIC,
         sensor_icon="mdi:charge",
     ),
@@ -109,7 +101,6 @@ MOWER_SENSORS = [
         unit_of_measurement=UnitOfTime.SECONDS,
         device_class=SensorDeviceClass.DURATION,
         state_class=SensorStateClass.TOTAL,
-        sensor_class=None,
         entity_category=EntityCategory.DIAGNOSTIC,
         sensor_icon="mdi:blade",
     ),
@@ -141,7 +132,7 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
         self._unit_of_measurement = description.unit_of_measurement
         self._device_class = description.device_class
         self._state = None
-        self._sensor_class = description.sensor_class
+        self._state_class = description.state_class
         self._entity_category = description.entity_category
         self._description = description.name
         self._attributes = {"description": description.name}
@@ -179,9 +170,9 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
         return self.entity_description.device_class
 
     @property
-    def sensor_class(self):
-        """Return the sensor class of this sensor."""
-        return self.entity_description.sensor_class
+    def state_class(self):
+        """Return the state class of this sensor."""
+        return self.entity_description.state_class
 
     @property
     def extra_state_attributes(self):
