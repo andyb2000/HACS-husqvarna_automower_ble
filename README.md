@@ -1,9 +1,8 @@
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
-[![Validate](https://github.com/Disane87/spoolman-homeassistant/actions/workflows/validate.yml/badge.svg)](https://github.com/Disane87/spoolman-homeassistant/actions/workflows/validate.yml)
-![GitHub all releases](https://img.shields.io/github/downloads/Disane87/spoolman-homeassistant/total)
-![GitHub](https://img.shields.io/github/license/Disane87/spoolman-homeassistant)
-![GitHub issues by-label](https://img.shields.io/github/issues/Disane87/spoolman-homeassistant/bug?color=red)
-![GitHub contributors](https://img.shields.io/github/contributors/Disane87/spoolman-homeassistant)
+[![Validate](https://github.com/andyb2000/HACS-husqvarna_automower_ble/actions/workflows/validate.yml/badge.svg)](https://github.com/andyb2000/HACS-husqvarna_automower_ble/actions/workflows/validate.yml)
+![GitHub all releases](https://img.shields.io/github/downloads/andyb2000/HACS-husqvarna_automower_ble/total)
+![GitHub issues by-label](https://img.shields.io/github/issues/andyb2000/HACS-husqvarna_automower_ble/bug?color=red)
+![GitHub contributors](https://img.shields.io/github/contributors/andyb2000/HACS-husqvarna_automower_ble)
 
 # HACS-husqvarna_automower_ble - Custom integration for Husqvarna Bluetooth automowers
 
