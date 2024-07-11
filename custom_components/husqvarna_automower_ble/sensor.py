@@ -23,7 +23,7 @@ from .coordinator import HusqvarnaCoordinator
 _LOGGER = logging.getLogger(__name__)
 
 MOWER_SENSORS = [
-    SensoryEntityDescription(
+    SensorEntityDescription(
         name="Battery Level",
         key="battery_level",
         unit_of_measurement=PERCENTAGE,
@@ -33,7 +33,7 @@ MOWER_SENSORS = [
         entity_category=None,
         sensor_icon="mdi:battery",
     ),
-    SensoryEntityDescription(
+    SensorEntityDescription(
         name="Next Start Time",
         key="next_start_time",
         unit_of_measurement=None,
@@ -43,7 +43,7 @@ MOWER_SENSORS = [
         entity_category=None,
         sensor_icon="mdi:timer",
     ),
-    SensoryEntityDescription(
+    SensorEntityDescription(
         name="Total running time",
         key="statistics[totalRunningTime]",
         unit_of_measurement=UnitOfTime.SECONDS,
@@ -53,7 +53,7 @@ MOWER_SENSORS = [
         entity_category=EntityCategory.DIAGNOSTIC,
         sensor_icon="mdi:timer",
     ),
-    SensoryEntityDescription(
+    SensorEntityDescription(
         name="Total cutting time",
         key="totalCuttingTime",
         unit_of_measurement=UnitOfTime.SECONDS,
@@ -63,7 +63,7 @@ MOWER_SENSORS = [
         entity_category=EntityCategory.DIAGNOSTIC,
         sensor_icon="mdi:timer",
     ),
-    SensoryEntityDescription(
+    SensorEntityDescription(
         name="Total charging time",
         key="totalChargingTime",
         unit_of_measurement=UnitOfTime.SECONDS,
@@ -73,7 +73,7 @@ MOWER_SENSORS = [
         entity_category=EntityCategory.DIAGNOSTIC,
         sensor_icon="mdi:timer",
     ),
-    SensoryEntityDescription(
+    SensorEntityDescription(
         name="Total searcing time",
         key="totalSearchingTime",
         unit_of_measurement=UnitOfTime.SECONDS,
@@ -83,7 +83,7 @@ MOWER_SENSORS = [
         entity_category=EntityCategory.DIAGNOSTIC,
         sensor_icon="mdi:timer",
     ),
-    SensoryEntityDescription(
+    SensorEntityDescription(
         name="Total number of collisions",
         key="numberOfCollisions",
         unit_of_measurement=None,
@@ -93,7 +93,7 @@ MOWER_SENSORS = [
         entity_category=EntityCategory.DIAGNOSTIC,
         sensor_icon="mdi:crash",
     ),
-    SensoryEntityDescription(
+    SensorEntityDescription(
         name="Total number of charging cycles",
         key="numberOfChargingCycles",
         unit_of_measurement=None,
@@ -103,7 +103,7 @@ MOWER_SENSORS = [
         entity_category=EntityCategory.DIAGNOSTIC,
         sensor_icon="mdi:charge",
     ),
-    SensoryEntityDescription(
+    SensorEntityDescription(
         name="Total cutting blade usage",
         key="totalChargingTime",
         unit_of_measurement=UnitOfTime.SECONDS,
