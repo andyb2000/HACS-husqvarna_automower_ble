@@ -12,10 +12,9 @@ from homeassistant.components import bluetooth
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_ADDRESS, CONF_CLIENT_ID, Platform
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.exceptions import ConfigEntryNotReady
 
-from .const import DOMAIN, MANUFACTURER
+from .const import DOMAIN
 from .coordinator import HusqvarnaCoordinator
 
 LOGGER = logging.getLogger(__name__)
