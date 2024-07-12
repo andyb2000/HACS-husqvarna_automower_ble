@@ -16,6 +16,7 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from homeassistant.helpers.device_registry import format_mac
 
 from .const import DOMAIN
 from .coordinator import HusqvarnaCoordinator
@@ -114,8 +115,8 @@ async def async_setup_entry(
     """Set up AutomowerLawnMower sensor from a config entry."""
     coordinator: HusqvarnaCoordinator = hass.data[DOMAIN][config_entry.entry_id]
     _LOGGER.debug("Creating mower sensors")
-    sensors = [AutomowerSensorEntity(coordinator, description, "automower_" + coordinator.model + "_" + coordinator.address) for description in MOWER_SENSORS]
-    _LOGGER.debug("About to add sensors: " + str(sensors))
+    sensors = [AutomowerSensorEntity(coordinator, description, "automower_" + format_mac(coordinator.address)) for description in MOWER_SENSORS]
+    #_LOGGER.debug("About to add sensors: " + str(sensors))
     if not sensors:
         _LOGGER.error("No sensors were created. Check MOWER_SENSORS.")
     async_add_entities(sensors)
@@ -138,7 +139,7 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
         self._description = description.name
         self._attributes = {"description": description.name}
 
-        _LOGGER.debug("in AutomowerSensorEntity creating entity for: " + str(self._name))
+        _LOGGER.debug("in AutomowerSensorEntity creating entity for: " + str(self._name) + "with unique_id: " + str(self._attr_unique_id))
 
 #        super().__init__(coordinator)
 #        self._update_attr()
