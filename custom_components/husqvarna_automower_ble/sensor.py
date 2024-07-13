@@ -238,7 +238,7 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
         return {
             "identifiers": {(DOMAIN, self.coordinator.serial)},
             "manufacturer": MANUFACTURER,
-            "model": coordinator.model,
+            "model": self.coordinator.model,
         }
 #    async def async_update(self):
 #        """Update attributes for sensor."""
