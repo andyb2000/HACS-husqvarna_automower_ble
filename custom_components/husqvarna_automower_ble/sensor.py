@@ -115,7 +115,7 @@ async def async_setup_entry(
     """Set up AutomowerLawnMower sensor from a config entry."""
     coordinator: HusqvarnaCoordinator = hass.data[DOMAIN][config_entry.entry_id]
     _LOGGER.debug("Creating mower sensors")
-    sensors = [AutomowerSensorEntity(coordinator, description, "automower_" + format_mac(coordinator.address), entry) for description in MOWER_SENSORS]
+    sensors = [AutomowerSensorEntity(coordinator, description, "automower_" + format_mac(coordinator.address)) for description in MOWER_SENSORS]
     #_LOGGER.debug("About to add sensors: " + str(sensors))
     if not sensors:
         _LOGGER.error("No sensors were created. Check MOWER_SENSORS.")
@@ -125,7 +125,7 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
 
     _attr_has_entity_name = True
 
-    def __init__(self,coordinator: HusqvarnaCoordinator, description: SensorEntityDescription, mower_id: str, config_entry) -> None:
+    def __init__(self,coordinator: HusqvarnaCoordinator, description: SensorEntityDescription, mower_id: str) -> None:
         """Set up AutomowerSensors."""
         super().__init__(coordinator)
         self.entity_description = description
@@ -140,7 +140,6 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
         self._entity_category = description.entity_category
         self._description = description.name
         self._attributes = {"description": description.name}
-        self._config_entry = config_entry
 
         _LOGGER.debug("in AutomowerSensorEntity creating entity for: " + str(self._name) + "with unique_id: " + str(self._attr_unique_id))
 
@@ -237,7 +236,7 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
     def device_info(self):
         """Return device information about this entity."""
         return {
-            "identifiers": {(DOMAIN, coordinator.serial)},
+            "identifiers": {(DOMAIN, self.coordinator.serial)},
             "manufacturer": MANUFACTURER,
             "model": coordinator.model,
         }
