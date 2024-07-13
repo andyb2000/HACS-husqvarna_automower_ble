@@ -18,7 +18,7 @@ from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.helpers.device_registry import format_mac
 
-from .const import DOMAIN
+from .const import DOMAIN, MANUFACTURER
 from .coordinator import HusqvarnaCoordinator
 
 _LOGGER = logging.getLogger(__name__)
@@ -115,7 +115,7 @@ async def async_setup_entry(
     """Set up AutomowerLawnMower sensor from a config entry."""
     coordinator: HusqvarnaCoordinator = hass.data[DOMAIN][config_entry.entry_id]
     _LOGGER.debug("Creating mower sensors")
-    sensors = [AutomowerSensorEntity(coordinator, description, "automower_" + format_mac(coordinator.address)) for description in MOWER_SENSORS]
+    sensors = [AutomowerSensorEntity(coordinator, description, "automower_" + format_mac(coordinator.address), entry) for description in MOWER_SENSORS]
     #_LOGGER.debug("About to add sensors: " + str(sensors))
     if not sensors:
         _LOGGER.error("No sensors were created. Check MOWER_SENSORS.")
@@ -125,7 +125,7 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
 
     _attr_has_entity_name = True
 
-    def __init__(self,coordinator: HusqvarnaCoordinator, description: SensorEntityDescription, mower_id: str) -> None:
+    def __init__(self,coordinator: HusqvarnaCoordinator, description: SensorEntityDescription, mower_id: str, config_entry) -> None:
         """Set up AutomowerSensors."""
         super().__init__(coordinator)
         self.entity_description = description
@@ -140,6 +140,7 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
         self._entity_category = description.entity_category
         self._description = description.name
         self._attributes = {"description": description.name}
+        self._config_entry = config_entry
 
         _LOGGER.debug("in AutomowerSensorEntity creating entity for: " + str(self._name) + "with unique_id: " + str(self._attr_unique_id))
 
@@ -231,6 +232,15 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
                 "%s not a valid attribute (in _update_attr) - second deep search fail",
                 self.entity_description.key,
             )
+
+    @property
+    def device_info(self):
+        """Return device information about this entity."""
+        return {
+            "identifiers": {(DOMAIN, coordinator.serial)},
+            "manufacturer": MANUFACTURER,
+            "model": coordinator.model,
+        }
 #    async def async_update(self):
 #        """Update attributes for sensor."""
 #        self._attr_native_value = None
