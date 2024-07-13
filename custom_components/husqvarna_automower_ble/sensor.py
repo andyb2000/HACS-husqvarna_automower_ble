@@ -44,7 +44,7 @@ MOWER_SENSORS = [
     ),
     SensorEntityDescription(
         name="Total running time",
-        key="statistics[totalRunningTime]",
+        key="totalRunningTime",
         unit_of_measurement=UnitOfTime.SECONDS,
         device_class=SensorDeviceClass.DURATION,
         state_class=SensorStateClass.TOTAL,
@@ -214,7 +214,23 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
                 "%s not a valid attribute (in _update_attr)",
                 self.entity_description.key,
             )
-
+            # pass to allow it to try the next method
+            pass
+        try:
+            # trying alternative search
+            _LOGGER.debug("Attempting deep search in array for key")
+            for entry in self.coordinator.data["statistics"]:
+                if entry[self.entity_description.key]:
+                    self._attr_native_value = entry[self.entity_description.key]
+                    self._attr_available = self._attr_native_value is not None
+                    _LOGGER.debug("Update sensor %s with value %s", self.entity_description.key, self._attr_native_value)
+                    return self._attr_native_value
+        except KeyError:
+            self._attr_native_value = None
+            _LOGGER.error(
+                "%s not a valid attribute (in _update_attr) - second deep search fail",
+                self.entity_description.key,
+            )
 #    async def async_update(self):
 #        """Update attributes for sensor."""
 #        self._attr_native_value = None
