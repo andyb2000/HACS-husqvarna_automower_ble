@@ -215,16 +215,16 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
                 self.entity_description.key,
             )
 
-    async def async_update(self):
-        """Update attributes for sensor."""
-        self._attr_native_value = None
-        try:
-            self._attr_native_value = self.coordinator.data[self.entity_description.key]
-            self._attr_available = self._attr_native_value is not None
-            _LOGGER.debug("Update sensor %s with value %s", self.entity_description.key, self._attr_native_value)
-        except KeyError:
-            self._attr_native_value = None
-            _LOGGER.error(
-                "%s not a valid attribute (in async_update)",
-                self.entity_description.key,
-            )
+#    async def async_update(self):
+#        """Update attributes for sensor."""
+#        self._attr_native_value = None
+#        try:
+#            self._attr_native_value = self.coordinator.data[self.entity_description.key]
+#            self._attr_available = self._attr_native_value is not None
+#            _LOGGER.debug("Update sensor %s with value %s", self.entity_description.key, self._attr_native_value)
+#        except KeyError:
+#            self._attr_native_value = None
+#            _LOGGER.error(
+#                "%s not a valid attribute (in async_update)",
+#                self.entity_description.key,
+#            )
