@@ -14,5 +14,5 @@
   "issue_tracker": "https://github.com/andyb2000/HACS-husqvarna_automower_ble/issues",
   "iot_class": "local_polling",
   "requirements": ["automower-ble==0.1.33"],
-  "version": "0.0.1"
+  "version": "0.0.3"
 }
