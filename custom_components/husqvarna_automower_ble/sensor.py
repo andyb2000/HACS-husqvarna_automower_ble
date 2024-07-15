@@ -154,6 +154,7 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
     @property
     def state(self):
         """Return the state of the sensor."""
+        _LOGGER.debug("in state sensor code")
         self._attr_native_value = None
         try:
             self._attr_native_value = self.coordinator.data[self.entity_description.key]
@@ -163,7 +164,7 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
         except KeyError:
             self._attr_native_value = None
             _LOGGER.error(
-                "%s not a valid attribute (in _update_attr)",
+                "%s not a valid attribute (in state)",
                 self.entity_description.key,
             )
             # pass to allow it to try the next method
@@ -179,7 +180,7 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
         except KeyError:
             self._attr_native_value = None
             _LOGGER.error(
-                "%s not a valid attribute (in _update_attr) - second deep search fail",
+                "%s not a valid attribute (in state) - second deep search fail",
                 self.entity_description.key,
             )
             return None
@@ -223,6 +224,7 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
     @callback
     def _update_attr(self) -> None:
         """Update attributes for sensor."""
+        _LOGGER.debug("in _update_attr code")
         self._attr_native_value = None
         try:
             self._attr_native_value = self.coordinator.data[self.entity_description.key]
