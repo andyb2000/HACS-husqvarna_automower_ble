@@ -4,8 +4,6 @@ from __future__ import annotations
 
 import logging
 
-import json
-
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorEntity,
@@ -220,10 +218,9 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
             pass
         try:
             # trying alternative search
-            json_input  = self.coordinator.data["statistics"]
-            _LOGGER.debug("Attempting deep search in array for key (json) - data in struct - " + str(type(json_input)))
-            json_list = json.loads(json_input)
-            self._attr_native_value = json_list[self.entity_description.key]
+            stats_dict  = self.coordinator.data["statistics"]
+            _LOGGER.debug("Attempting deep search in array for key - data in struct - " + str(type(stats_dict)))
+            self._attr_native_value = stats_dict.get[self.entity_description.key]
             self._attr_available = self._attr_native_value is not None
             _LOGGER.debug("Update sensor %s with value %s", self.entity_description.key, self._attr_native_value)
             return self._attr_native_value
