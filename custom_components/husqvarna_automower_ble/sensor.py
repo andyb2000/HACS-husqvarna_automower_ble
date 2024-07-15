@@ -220,6 +220,7 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
             # trying alternative search
             _LOGGER.debug("Attempting deep search in array for key")
             for entry in self.coordinator.data["statistics"]:
+                _LOGGER.debug("entry contains: " + str(entry) + " and type is: " + type(entry))
                 if entry.split()[self.entity_description.key]:
                     self._attr_native_value = entry.split()[self.entity_description.key]
                     self._attr_available = self._attr_native_value is not None
