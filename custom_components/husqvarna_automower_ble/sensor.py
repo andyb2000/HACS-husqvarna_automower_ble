@@ -85,7 +85,7 @@ MOWER_SENSORS = [
         device_class=None,
         state_class=SensorStateClass.TOTAL,
         entity_category=EntityCategory.DIAGNOSTIC,
-        icon="mdi:crash",
+        icon="mdi:alert-circle",
     ),
     SensorEntityDescription(
         name="Total number of charging cycles",
@@ -94,7 +94,7 @@ MOWER_SENSORS = [
         device_class=None,
         state_class=SensorStateClass.TOTAL,
         entity_category=EntityCategory.DIAGNOSTIC,
-        icon="mdi:charge",
+        icon="mdi:repeat-variant",
     ),
     SensorEntityDescription(
         name="Total cutting blade usage",
