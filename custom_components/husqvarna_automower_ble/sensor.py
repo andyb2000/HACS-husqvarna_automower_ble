@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import logging
 
+import json
+
 from homeassistant.components.sensor import (
     SensorDeviceClass,
     SensorEntity,
@@ -218,18 +220,17 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
             pass
         try:
             # trying alternative search
-            _LOGGER.debug("Attempting deep search in array for key")
-            for entry in self.coordinator.data["statistics"]:
-                _LOGGER.debug("entry contains: " + str(entry) + " and type is: " + str(type(entry)))
-                if entry.split()[self.entity_description.key]:
-                    self._attr_native_value = entry.split()[self.entity_description.key]
-                    self._attr_available = self._attr_native_value is not None
-                    _LOGGER.debug("Update sensor %s with value %s", self.entity_description.key, self._attr_native_value)
-                    return self._attr_native_value
+            _LOGGER.debug("Attempting deep search in array for key (json)")
+            json_input  = self.coordinator.data["statistics"].replace("'", '"')
+            json_list = json.loads(json_input)
+            self._attr_native_value = json_list[self.entity_description.key]
+            self._attr_available = self._attr_native_value is not None
+            _LOGGER.debug("Update sensor %s with value %s", self.entity_description.key, self._attr_native_value)
+            return self._attr_native_value
         except KeyError:
             self._attr_native_value = None
             _LOGGER.error(
-                "%s not a valid attribute (in _update_attr) - second deep search fail",
+                "%s not a valid attribute (in _update_attr) - second deep search fail (json)",
                 self.entity_description.key,
             )
 
