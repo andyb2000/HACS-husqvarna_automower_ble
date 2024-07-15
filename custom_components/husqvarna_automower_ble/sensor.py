@@ -154,14 +154,36 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
     @property
     def state(self):
         """Return the state of the sensor."""
-        data = self.coordinator.data
-        if data:
-            _LOGGER.debug("state of sensor data structure: " + str(data))
-            value = data.get(self.entity_description.key)
-            if value:
-                _LOGGER.debug("value of sensor data structure: " + str(value))
-                return value
-        return None
+        _LOGGER.debug("in state sensor code")
+        self._attr_native_value = None
+        try:
+            self._attr_native_value = self.coordinator.data[self.entity_description.key]
+            self._attr_available = self._attr_native_value is not None
+            _LOGGER.debug("Update sensor %s with value %s", self.entity_description.key, self._attr_native_value)
+            return self._attr_native_value
+        except KeyError:
+            self._attr_native_value = None
+            _LOGGER.error(
+                "%s not a valid attribute (in state)",
+                self.entity_description.key,
+            )
+            # pass to allow it to try the next method
+            pass
+        try:
+            # trying alternative search
+            stats_dict  = self.coordinator.data["statistics"]
+            _LOGGER.debug("Attempting deep search in array for key - data in struct - " + str(type(stats_dict)))
+            self._attr_native_value = stats_dict[self.entity_description.key]
+            self._attr_available = self._attr_native_value is not None
+            _LOGGER.debug("Update sensor %s with value %s", self.entity_description.key, self._attr_native_value)
+            return self._attr_native_value
+        except KeyError:
+            self._attr_native_value = None
+            _LOGGER.error(
+                "%s not a valid attribute (in state) - second deep search fail",
+                self.entity_description.key,
+            )
+            return None
 
     @property
     def unit_of_measurement(self):
@@ -202,6 +224,7 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
     @callback
     def _update_attr(self) -> None:
         """Update attributes for sensor."""
+        _LOGGER.debug("in _update_attr code")
         self._attr_native_value = None
         try:
             self._attr_native_value = self.coordinator.data[self.entity_description.key]
@@ -218,13 +241,12 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
             pass
         try:
             # trying alternative search
-            _LOGGER.debug("Attempting deep search in array for key")
-            for entry in self.coordinator.data["statistics"]:
-                if entry.split()[self.entity_description.key]:
-                    self._attr_native_value = entry.split()[self.entity_description.key]
-                    self._attr_available = self._attr_native_value is not None
-                    _LOGGER.debug("Update sensor %s with value %s", self.entity_description.key, self._attr_native_value)
-                    return self._attr_native_value
+            stats_dict  = self.coordinator.data["statistics"]
+            _LOGGER.debug("Attempting deep search in array for key - data in struct - " + str(type(stats_dict)))
+            self._attr_native_value = stats_dict[self.entity_description.key]
+            self._attr_available = self._attr_native_value is not None
+            _LOGGER.debug("Update sensor %s with value %s", self.entity_description.key, self._attr_native_value)
+            return self._attr_native_value
         except KeyError:
             self._attr_native_value = None
             _LOGGER.error(
