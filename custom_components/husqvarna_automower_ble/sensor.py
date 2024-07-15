@@ -221,7 +221,7 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
         try:
             # trying alternative search
             _LOGGER.debug("Attempting deep search in array for key (json)")
-            json_input  = self.coordinator.data["statistics"].replace("'", '"')
+            json_input  = self.coordinator.data["statistics"].get.replace("'", '"')
             json_list = json.loads(json_input)
             self._attr_native_value = json_list[self.entity_description.key]
             self._attr_available = self._attr_native_value is not None
