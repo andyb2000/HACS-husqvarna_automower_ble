@@ -8,9 +8,6 @@
 This is the home-assistant integration based on @alistair23 BLE implementation of Husqvarna bluetooth mowers
 https://github.com/alistair23/AutoMower-BLE
 
-## Installation
-Install via HACS
-
 # Installation
 Just add this repo to the custom repos in HACS (https://hacs.xyz/docs/faq/custom_repositories/).
 
@@ -88,3 +85,12 @@ Now enter the MAC address for your mower. Wait for it to add/search.
 
 You may need to repeat this several times as the bluetooth pairing does not always work correctly.
 
+# Sensors and dashboard
+
+An automower entity is created that allows for the main control of the mower, start mowing, return to dock, etc.
+
+![image](https://github.com/user-attachments/assets/82929c73-4b91-4249-a8b2-bdc493078a31)
+
+In addition to that, extra sensors are created that allow you to monitor battery status, next mowing time and overall cutting details:
+
+![image](https://github.com/user-attachments/assets/ae4c2d43-8ec3-4cb3-8f61-beb5dd3442f5)
