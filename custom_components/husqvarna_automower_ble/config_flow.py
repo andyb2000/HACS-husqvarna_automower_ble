@@ -85,14 +85,10 @@ class HusqvarnaAutomowerBleConfigFlow(ConfigFlow, domain=DOMAIN):
                 data={CONF_ADDRESS: self.address, CONF_CLIENT_ID: channel_id},
             )
 
-        self.context["title_placeholders"] = {
-            "name": title,
-        }
-
         self._set_confirm_only()
         return self.async_show_form(
             step_id="confirm",
-            description_placeholders=self.context["title_placeholders"],
+            description_placeholders={"message": "Power your mower on and enter the PIN so it is in pairing mode and click SUBMIT."}
         )
 
     async def async_step_user(
@@ -107,6 +103,7 @@ class HusqvarnaAutomowerBleConfigFlow(ConfigFlow, domain=DOMAIN):
 
         return self.async_show_form(
             step_id="user",
+            description_placeholders={"message": "Enter your device MAC address"}
             data_schema=vol.Schema(
                 {
                     vol.Required(CONF_ADDRESS): str,
