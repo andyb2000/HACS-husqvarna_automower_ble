@@ -105,6 +105,33 @@ MOWER_SENSORS = [
         entity_category=EntityCategory.DIAGNOSTIC,
         icon="mdi:blade",
     ),
+    SensorEntityDescription(
+        name="Error code",
+        key="errorCode",
+        unit_of_measurement=None,
+        device_class=None,
+        state_class=None,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        icon="mdi:error",
+    ),
+    SensorEntityDescription(
+        name="Total number of messages in the queue",
+        key="NumberOfMessages",
+        unit_of_measurement=None,
+        device_class=None,
+        state_class=SensorStateClass.TOTAL,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        icon="mdi:envelope",
+    ),
+    SensorEntityDescription(
+        name="Remaining Charge Time",
+        key="RemainingChargingTime",
+        unit_of_measurement=UnitOfTime.SECONDS,
+        device_class=SensorDeviceClass.DURATION,
+        state_class=SensorStateClass.TOTAL,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        icon="mdi:charging",
+    ),
 ]
 
 async def async_setup_entry(

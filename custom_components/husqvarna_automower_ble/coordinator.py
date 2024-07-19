@@ -111,6 +111,15 @@ class HusqvarnaCoordinator(DataUpdateCoordinator[dict[str, bytes]]):
 #                await self._async_find_device()
 #                raise UpdateFailed("Error getting data from device")
 
+            data["errorCode"] = await self.mower.command("GetError")
+            _LOGGER.debug("errorCode: " + str(data["errorCode"]))
+
+            data["NumberOfMessages"] = await self.mower.command("GetNumberOfMessages")
+            _LOGGER.debug("NumberOfMessages: " + str(data["NumberOfMessages"]))
+
+            data["RemainingChargingTime"] = await self.mower.command("GetRemainingChargingTime")
+            _LOGGER.debug("RemainingChargingTime: " + str(data["RemainingChargingTime"]))
+
             data["statistics"] = await self.mower.command("GetAllStatistics")
             _LOGGER.debug("statuses: " + str(data["statistics"]))
 
