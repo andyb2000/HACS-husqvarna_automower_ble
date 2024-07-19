@@ -85,7 +85,7 @@ MOWER_SENSORS = [
         device_class=None,
         state_class=SensorStateClass.TOTAL,
         entity_category=EntityCategory.DIAGNOSTIC,
-        icon="mdi:crash",
+        icon="mdi:alert-circle",
     ),
     SensorEntityDescription(
         name="Total number of charging cycles",
@@ -94,7 +94,7 @@ MOWER_SENSORS = [
         device_class=None,
         state_class=SensorStateClass.TOTAL,
         entity_category=EntityCategory.DIAGNOSTIC,
-        icon="mdi:charge",
+        icon="mdi:repeat-variant",
     ),
     SensorEntityDescription(
         name="Total cutting blade usage",
@@ -172,7 +172,6 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
         try:
             # trying alternative search
             stats_dict  = self.coordinator.data["statistics"]
-            _LOGGER.debug("Attempting deep search in array for key - data in struct - " + str(type(stats_dict)))
             self._attr_native_value = stats_dict[self.entity_description.key]
             self._attr_available = self._attr_native_value is not None
             _LOGGER.debug("Update sensor %s with value %s", self.entity_description.key, self._attr_native_value)

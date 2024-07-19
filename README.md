@@ -8,8 +8,11 @@
 This is the home-assistant integration based on @alistair23 BLE implementation of Husqvarna bluetooth mowers
 https://github.com/alistair23/AutoMower-BLE
 
-## Installation
-Install via HACS
+NOTE - It is recommended to use the python library direct from the source tree, rather than pypi/pip libraries. This is due to the library being behind on pypi for legacy applications.
+I have included in this HACS repo manifest for Home Assistant/Python/PIP to install from the main repo above, so this should happen.
+If not, you need to manually update the library on your home assistant installation, in the location:
+  /usr/local/lib/python3.12/site-packages/automower_ble/
+(The newer version should NOT have request.py as a file so you can check if you are using the correct version)
 
 # Installation
 Just add this repo to the custom repos in HACS (https://hacs.xyz/docs/faq/custom_repositories/).
@@ -88,3 +91,12 @@ Now enter the MAC address for your mower. Wait for it to add/search.
 
 You may need to repeat this several times as the bluetooth pairing does not always work correctly.
 
+# Sensors and dashboard
+
+An automower entity is created that allows for the main control of the mower, start mowing, return to dock, etc.
+
+![image](https://github.com/user-attachments/assets/82929c73-4b91-4249-a8b2-bdc493078a31)
+
+In addition to that, extra sensors are created that allow you to monitor battery status, next mowing time and overall cutting details:
+
+![image](https://github.com/user-attachments/assets/ae4c2d43-8ec3-4cb3-8f61-beb5dd3442f5)
