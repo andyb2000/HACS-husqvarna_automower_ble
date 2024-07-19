@@ -103,7 +103,7 @@ class HusqvarnaAutomowerBleConfigFlow(ConfigFlow, domain=DOMAIN):
 
         return self.async_show_form(
             step_id="user",
-            description_placeholders={"message": "Enter your device MAC address"}
+            description_placeholders={"message": "Enter your device MAC address"},
             data_schema=vol.Schema(
                 {
                     vol.Required(CONF_ADDRESS): str,
