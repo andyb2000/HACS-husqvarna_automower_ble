@@ -13,6 +13,6 @@
   "documentation": "https://github.com/andyb2000/HACS-husqvarna_automower_ble/",
   "issue_tracker": "https://github.com/andyb2000/HACS-husqvarna_automower_ble/issues",
   "iot_class": "local_polling",
-  "requirements": [automower_ble @ "git+https://github.com/alistair23/AutoMower-BLE.git@master"],
+  "requirements": ["git+https://github.com/alistair23/AutoMower-BLE.git@master"],
   "version": "0.0.7"
 }
