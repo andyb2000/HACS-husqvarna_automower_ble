@@ -8,6 +8,12 @@
 This is the home-assistant integration based on @alistair23 BLE implementation of Husqvarna bluetooth mowers
 https://github.com/alistair23/AutoMower-BLE
 
+NOTE - It is recommended to use the python library direct from the source tree, rather than pypi/pip libraries. This is due to the library being behind on pypi for legacy applications.
+I have included in this HACS repo manifest for Home Assistant/Python/PIP to install from the main repo above, so this should happen.
+If not, you need to manually update the library on your home assistant installation, in the location:
+  /usr/local/lib/python3.12/site-packages/automower_ble/
+(The newer version should NOT have request.py as a file so you can check if you are using the correct version)
+
 # Installation
 Just add this repo to the custom repos in HACS (https://hacs.xyz/docs/faq/custom_repositories/).
 
