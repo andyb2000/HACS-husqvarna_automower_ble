@@ -89,27 +89,27 @@ class HusqvarnaCoordinator(DataUpdateCoordinator[dict[str, bytes]]):
         try:
             data["battery_level"] = await self.mower.battery_level()
             _LOGGER.debug("battery level: " + str(data["battery_level"]))
-            if data["battery_level"] is None:
-                await self._async_find_device()
-                raise UpdateFailed("Error getting data from device")
+#            if data["battery_level"] is None:
+#                await self._async_find_device()
+#                raise UpdateFailed("Error getting data from device")
 
             data["activity"] = await self.mower.mower_activity()
             _LOGGER.debug("activity: " + str(data["activity"]))
-            if data["activity"] is None:
-                await self._async_find_device()
-                raise UpdateFailed("Error getting data from device")
+#            if data["activity"] is None:
+#                await self._async_find_device()
+#                raise UpdateFailed("Error getting data from device")
 
             data["state"] = await self.mower.mower_state()
             _LOGGER.debug("state: " + str(data["state"]))
-            if data["state"] is None:
-                await self._async_find_device()
-                raise UpdateFailed("Error getting data from device")
+#            if data["state"] is None:
+#                await self._async_find_device()
+#                raise UpdateFailed("Error getting data from device")
 
             data["next_start_time"] = await self.mower.mower_next_start_time()
             _LOGGER.debug("next_start_time: " + str(data["next_start_time"]))
-            if data["next_start_time"] is None:
-                await self._async_find_device()
-                raise UpdateFailed("Error getting data from device")
+#            if data["next_start_time"] is None:
+#                await self._async_find_device()
+#                raise UpdateFailed("Error getting data from device")
 
             data["statistics"] = await self.mower.command("GetAllStatistics")
             _LOGGER.debug("statuses: " + str(data["statistics"]))
