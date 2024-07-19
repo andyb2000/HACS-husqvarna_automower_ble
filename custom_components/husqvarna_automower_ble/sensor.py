@@ -112,7 +112,7 @@ MOWER_SENSORS = [
         device_class=None,
         state_class=None,
         entity_category=EntityCategory.DIAGNOSTIC,
-        icon="mdi:error",
+        icon="mdi:alert-decagram",
     ),
     SensorEntityDescription(
         name="Total number of messages in the queue",
@@ -121,7 +121,7 @@ MOWER_SENSORS = [
         device_class=None,
         state_class=SensorStateClass.TOTAL,
         entity_category=EntityCategory.DIAGNOSTIC,
-        icon="mdi:envelope",
+        icon="mdi:email-variant",
     ),
     SensorEntityDescription(
         name="Remaining Charge Time",
@@ -130,7 +130,7 @@ MOWER_SENSORS = [
         device_class=SensorDeviceClass.DURATION,
         state_class=SensorStateClass.TOTAL,
         entity_category=EntityCategory.DIAGNOSTIC,
-        icon="mdi:charging",
+        icon="mdi:power-plug-battery",
     ),
 ]
 
