@@ -135,7 +135,7 @@ class HusqvarnaCoordinator(DataUpdateCoordinator[dict[str, bytes]]):
             _LOGGER.error("Error getting data from device")
             if self._last_data and (datetime.now() - self._last_successful_update < timedelta(hours=1)):
                 _LOGGER.debug("Failed to fetch data, using last known good values from the past 1hr")
-                return data
+                return self._last_data
             else:
                 await self._async_find_device()
                 raise UpdateFailed("Error getting data from device") from ex
