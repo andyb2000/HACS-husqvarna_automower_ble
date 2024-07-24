@@ -128,6 +128,9 @@ class HusqvarnaCoordinator(DataUpdateCoordinator[dict[str, bytes]]):
             data["operatorstate"] = await self.mower.command("IsOperatorLoggedIn")
             _LOGGER.debug("IsOperatorLoggedIn: " + str(data["operatorstate"]))
 
+            data["last_message"] = await mower.command("GetMessage", messageId=0)
+            _LOGGER.debug("last_message: " + str(data["last_message"]))
+
             self._last_successful_update = datetime.now()
             self._last_data = data
 
