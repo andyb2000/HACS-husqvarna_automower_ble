@@ -17,6 +17,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.entity import EntityCategory
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.helpers.device_registry import format_mac
+from datetime import datetime, timedelta
 
 from .const import DOMAIN, MANUFACTURER
 from .coordinator import HusqvarnaCoordinator
@@ -166,7 +167,8 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
         self._state_class = description.state_class
         self._entity_category = description.entity_category
         self._description = description.name
-        self._attributes = {"description": description.name}
+        self._attributes = {"description": description.name, "last_updated": None}
+#        self._attr_extra_state_attributes = {"last_updated": None}
 
         _LOGGER.debug("in AutomowerSensorEntity creating entity for: " + str(self._name) + "with unique_id: " + str(self._attr_unique_id))
 
@@ -210,6 +212,13 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
                 self.entity_description.key,
             )
             return None
+
+    @property
+    def available(self):
+        """Return if the sensor is available."""
+        if self.coordinator._last_successful_update is None:
+            return False
+        return datetime.now() - self.coordinator._last_successful_update < timedelta(hours=1)
 
     @property
     def unit_of_measurement(self):

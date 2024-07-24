@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import timedelta
+from datetime import timedelta, datetime
 import logging
 from typing import Any
 
@@ -49,6 +49,8 @@ class HusqvarnaCoordinator(DataUpdateCoordinator[dict[str, bytes]]):
         self.mower = mower
         self.channel_id = channel_id
         self.serial = serial
+        self._last_successful_update = None
+        self._last_data = None
 
     async def async_shutdown(self) -> None:
         """Shutdown coordinator and any connection."""
@@ -126,10 +128,20 @@ class HusqvarnaCoordinator(DataUpdateCoordinator[dict[str, bytes]]):
             data["operatorstate"] = await self.mower.command("IsOperatorLoggedIn")
             _LOGGER.debug("IsOperatorLoggedIn: " + str(data["operatorstate"]))
 
+            data["last_message"] = await self.mower.command("GetMessage", messageId=0)
+            _LOGGER.debug("last_message: " + str(data["last_message"]))
+
+            self._last_successful_update = datetime.now()
+            self._last_data = data
+
         except (TimeoutError, BleakError) as ex:
             _LOGGER.error("Error getting data from device")
-            await self._async_find_device()
-            raise UpdateFailed("Error getting data from device") from ex
+            if self._last_data and (datetime.now() - self._last_successful_update < timedelta(hours=1)):
+                _LOGGER.debug("Failed to fetch data, using last known good values from the past 1hr")
+                return self._last_data
+            else:
+                await self._async_find_device()
+                raise UpdateFailed("Error getting data from device") from ex
 
         _LOGGER.debug("return from coordinator with data")
         return data
