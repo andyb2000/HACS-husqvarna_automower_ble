@@ -71,7 +71,7 @@ MOWER_SENSORS = [
         icon="mdi:timer",
     ),
     SensorEntityDescription(
-        name="Total searcing time",
+        name="Total searching time",
         key="totalSearchingTime",
         unit_of_measurement=UnitOfTime.SECONDS,
         device_class=SensorDeviceClass.DURATION,
