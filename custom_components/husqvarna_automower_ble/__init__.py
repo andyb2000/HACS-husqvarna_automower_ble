@@ -10,11 +10,12 @@ from bleak_retry_connector import close_stale_connections_by_address, get_device
 
 from homeassistant.components import bluetooth
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_ADDRESS, CONF_CLIENT_ID, Platform
+#from homeassistant.const import CONF_ADDRESS, CONF_CLIENT_ID, Platform
+from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
 
-from .const import DOMAIN
+from .const import DOMAIN, CONF_ADDRESS, CONF_PIN, CONF_CLIENT_ID, STARTUP_MESSAGE
 from .coordinator import HusqvarnaCoordinator
 
 LOGGER = logging.getLogger(__name__)
@@ -27,7 +28,10 @@ PLATFORMS: list[Platform] = [
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Husqvarna Autoconnect Bluetooth from a config entry."""
     address = entry.data[CONF_ADDRESS]
+    pin = entry.data[CONF_PIN]
     channel_id = entry.data[CONF_CLIENT_ID]
+
+    LOGGER.info(STARTUP_MESSAGE)
 
     mower = Mower(channel_id, address)
 
