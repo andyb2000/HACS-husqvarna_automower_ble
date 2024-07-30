@@ -29,7 +29,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     address = entry.data[CONF_ADDRESS]
     channel_id = entry.data[CONF_CLIENT_ID]
 
-    mower = Mower(channel_id, address)
+    mower = Mower(channel_id, address, 1342)
 
     await close_stale_connections_by_address(address)
 
