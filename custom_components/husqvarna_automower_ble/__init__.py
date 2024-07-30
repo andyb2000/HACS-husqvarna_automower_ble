@@ -28,7 +28,7 @@ PLATFORMS: list[Platform] = [
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Husqvarna Autoconnect Bluetooth from a config entry."""
     address = entry.data[CONF_ADDRESS]
-    pin = entry.data[CONF_PIN]
+    #pin = entry.data[CONF_PIN]
     channel_id = entry.data[CONF_CLIENT_ID]
 
     LOGGER.info(STARTUP_MESSAGE)

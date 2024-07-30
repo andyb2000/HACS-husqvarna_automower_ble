@@ -14,7 +14,6 @@ from homeassistant.components.bluetooth import BluetoothServiceInfo
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
 #from homeassistant.const import CONF_ADDRESS, CONF_CLIENT_ID
 from homeassistant.data_entry_flow import AbortFlow
-from homeassistant.helpers import config_validation as cv
 from bleak import BleakError
 
 from .const import DOMAIN,CONF_ADDRESS,CONF_PIN,CONF_CLIENT_ID
