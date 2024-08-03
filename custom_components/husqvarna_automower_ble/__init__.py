@@ -28,16 +28,19 @@ PLATFORMS: list[Platform] = [
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Husqvarna Autoconnect Bluetooth from a config entry."""
     address = entry.data[CONF_ADDRESS]
-    #pin = entry.data[CONF_PIN]
+    pin = entry.data[CONF_PIN]
     channel_id = entry.data[CONF_CLIENT_ID]
 
     LOGGER.info(STARTUP_MESSAGE)
 
-    mower = Mower(channel_id, address)
+    if pin != 0:
+        mower = Mower(channel_id, address, pin)
+    else:
+        mower = Mower(channel_id, address)
 
     await close_stale_connections_by_address(address)
 
-    LOGGER.debug("connecting to %s with channel ID %s", address, str(channel_id))
+    LOGGER.debug("connecting to %s with channel ID %s", address, str(channel_id), str(pin))
     device = bluetooth.async_ble_device_from_address(
         hass, address, connectable=True
     ) or await get_device(address)
