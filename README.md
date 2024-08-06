@@ -28,6 +28,21 @@ It should add and you can close the Repository input box.
 You should now see the integration in HACS where you can download the latest version, or search for "Husqvarna Automower BLE".
 Restart home assistant to load the new integration
 
+# PIN codes with Flymo or similar
+
+These devices (Easilife Go and other brands that use Husqvarna internal boards) don't have an option to disable PIN.
+They accept the pin by pressing the sequence of buttons on the mower and on the app when setting up the pairing.
+The PIN sequence is translated to digits like this:
+
+On/OFF Power button = 1
+Go/Schedule button = 2
+Go button = 3
+Park button = 4
+
+See below image from operators manual. Which indicates the default pin would be 1234
+
+
+
 # Usage
 
 BEFORE you add the new integration, you need to have your bluetooth proxy setup.
