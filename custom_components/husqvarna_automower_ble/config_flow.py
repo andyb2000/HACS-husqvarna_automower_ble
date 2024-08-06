@@ -55,7 +55,7 @@ class HusqvarnaAutomowerBleConfigFlow(ConfigFlow, domain=DOMAIN):
         self.address = discovery_info.address
         await self.async_set_unique_id(self.address)
         self._abort_if_unique_id_configured()
-        return await self.async_step_confirm()
+        return await self.async_step_user()
 
     async def async_step_confirm(
         self, user_input: dict[str, Any] | None = None
@@ -110,7 +110,7 @@ class HusqvarnaAutomowerBleConfigFlow(ConfigFlow, domain=DOMAIN):
             step_id="user",
             data_schema=vol.Schema(
                 {
-                    vol.Required(CONF_ADDRESS): str,
+                    vol.Required(CONF_ADDRESS, default=self.address): str,
                     vol.Optional(CONF_PIN, default=0): int,
                 },
             ),
