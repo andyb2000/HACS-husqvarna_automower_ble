@@ -41,6 +41,7 @@ Park button = 4
 
 See below image from operators manual. Which indicates the default pin would be 1234
 
+![image](https://github.com/user-attachments/assets/10c75863-a634-4686-bc4c-15bb128dcad9)
 
 
 # Usage
