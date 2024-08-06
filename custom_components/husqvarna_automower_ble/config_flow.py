@@ -101,6 +101,7 @@ class HusqvarnaAutomowerBleConfigFlow(ConfigFlow, domain=DOMAIN):
         errors = {}
         if user_input is not None:
             self.address = user_input[CONF_ADDRESS]
+            self.pin = user_input[CONF_PIN]
             await self.async_set_unique_id(self.address, raise_on_progress=False)
             self._abort_if_unique_id_configured()
             return await self.async_step_confirm()
@@ -110,7 +111,7 @@ class HusqvarnaAutomowerBleConfigFlow(ConfigFlow, domain=DOMAIN):
             data_schema=vol.Schema(
                 {
                     vol.Required(CONF_ADDRESS): str,
-                    vol.Optional(CONF_PIN): str,
+                    vol.Optional(CONF_PIN, default=0): int,
                 },
             ),
             errors=errors
