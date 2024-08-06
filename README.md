@@ -77,9 +77,13 @@ button:
 ```
 
 Once you have done this, deploy it to an ESP32 that is within range of your automower.
-You need the MAC address of your automower. Get this from your existing app.
 
-Now add your custom integration in Home Assistant.
+Bluetooth discovery may now discover your mower, if so you can go to SETTINGS > INTEGRATIONS
+and CONFIGURE. It will ask for the MAC and PIN.
+If autodiscovered the MAC will be filled in for you, otherwise you need to enter it manually.
+If the MAC is not discovered, you need to find this from your existing app.
+
+If you need to manually add it, do it by going into:
 SETTINGS > INTEGRATIONS
 Add Integration
 Search for "Husqvarna Automower BLE"
@@ -87,7 +91,8 @@ Search for "Husqvarna Automower BLE"
 BEFORE you enter the MAC address, power off your mower. Then power it back on and enter the physical
 PIN (if required). The mower goes into bluetooth pairing mode for up to 2 minutes which you need
 for this initial connection.
-Now enter the MAC address for your mower. Wait for it to add/search.
+During the configuration stage for the integration it will show a blank box with SUBMIT, click this when your mower
+is powered on and in bluetooth pairing mode.
 
 You may need to repeat this several times as the bluetooth pairing does not always work correctly.
 
