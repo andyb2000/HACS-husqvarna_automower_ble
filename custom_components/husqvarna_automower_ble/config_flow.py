@@ -98,6 +98,9 @@ class HusqvarnaAutomowerBleConfigFlow(ConfigFlow, domain=DOMAIN):
     ) -> ConfigFlowResult:
         """Handle the initial step."""
         _LOGGER.debug("async_step_user")
+        if not hasattr(self, 'address'):
+            self.address=""
+
         errors = {}
         if user_input is not None:
             self.address = user_input[CONF_ADDRESS]
