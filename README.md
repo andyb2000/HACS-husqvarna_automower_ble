@@ -35,8 +35,11 @@ They accept the pin by pressing the sequence of buttons on the mower and on the 
 The PIN sequence is translated to digits like this:
 
 On/OFF Power button = 1
+
 Go/Schedule button = 2
+
 Go button = 3
+
 Park button = 4
 
 See below image from operators manual. Which indicates the default pin would be 1234
