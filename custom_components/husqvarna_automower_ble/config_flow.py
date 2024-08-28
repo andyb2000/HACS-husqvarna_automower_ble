@@ -12,10 +12,11 @@ import voluptuous as vol
 from homeassistant.components import bluetooth
 from homeassistant.components.bluetooth import BluetoothServiceInfo
 from homeassistant.config_entries import ConfigFlow, ConfigFlowResult
-from homeassistant.const import CONF_ADDRESS, CONF_CLIENT_ID
+#from homeassistant.const import CONF_ADDRESS, CONF_CLIENT_ID
 from homeassistant.data_entry_flow import AbortFlow
+from bleak import BleakError
 
-from .const import DOMAIN
+from .const import DOMAIN,CONF_ADDRESS,CONF_PIN,CONF_CLIENT_ID
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -40,6 +41,7 @@ class HusqvarnaAutomowerBleConfigFlow(ConfigFlow, domain=DOMAIN):
     def __init__(self) -> None:
         """Initialize the config flow."""
         self.address: str | None
+        _LOGGER.debug("init - config_flow")
 
     async def async_step_bluetooth(
         self, discovery_info: BluetoothServiceInfo
@@ -53,7 +55,7 @@ class HusqvarnaAutomowerBleConfigFlow(ConfigFlow, domain=DOMAIN):
         self.address = discovery_info.address
         await self.async_set_unique_id(self.address)
         self._abort_if_unique_id_configured()
-        return await self.async_step_confirm()
+        return await self.async_step_user()
 
     async def async_step_confirm(
         self, user_input: dict[str, Any] | None = None
@@ -70,7 +72,7 @@ class HusqvarnaAutomowerBleConfigFlow(ConfigFlow, domain=DOMAIN):
             (manufacture, device_type, model) = await Mower(
                 channel_id, self.address
             ).probe_gatts(device)
-        except TimeoutError as exception:
+        except (BleakError, TimeoutError) as exception:
             raise AbortFlow(
                 "cannot_connect", description_placeholders={"error": str(exception)}
             ) from exception
@@ -82,7 +84,7 @@ class HusqvarnaAutomowerBleConfigFlow(ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             return self.async_create_entry(
                 title=title,
-                data={CONF_ADDRESS: self.address, CONF_CLIENT_ID: channel_id},
+                data={CONF_ADDRESS: self.address, CONF_CLIENT_ID: channel_id, CONF_PIN: self.pin},
             )
 
         self._set_confirm_only()
@@ -95,18 +97,26 @@ class HusqvarnaAutomowerBleConfigFlow(ConfigFlow, domain=DOMAIN):
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
         """Handle the initial step."""
+        _LOGGER.debug("async_step_user")
+        if not hasattr(self, 'address'):
+            self.address=""
+
+        errors = {}
         if user_input is not None:
             self.address = user_input[CONF_ADDRESS]
+            self.pin = user_input[CONF_PIN]
             await self.async_set_unique_id(self.address, raise_on_progress=False)
             self._abort_if_unique_id_configured()
             return await self.async_step_confirm()
 
         return self.async_show_form(
             step_id="user",
-            description_placeholders={"description": "Enter your device MAC address"},
             data_schema=vol.Schema(
                 {
-                    vol.Required(CONF_ADDRESS): str,
+                    vol.Required(CONF_ADDRESS, default=self.address): str,
+                    vol.Optional(CONF_PIN, default=0): int,
                 },
             ),
+            errors=errors
         )
+

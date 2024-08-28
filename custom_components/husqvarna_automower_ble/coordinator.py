@@ -63,17 +63,21 @@ class HusqvarnaCoordinator(DataUpdateCoordinator[dict[str, bytes]]):
         _LOGGER.debug("Trying to reconnect")
         await close_stale_connections_by_address(self.address)
 
+        _LOGGER.debug("bluetooth connect...")
         device = bluetooth.async_ble_device_from_address(
             self.hass, self.address, connectable=True
         )
+        _LOGGER.debug("back from async_ble_device_from_address")
         if not device:
-            _LOGGER.error("Can't find device")
+            _LOGGER.debug("Can't find device")
             raise UpdateFailed("Can't find device")
 
         try:
             if not await self.mower.connect(device):
+                _LOGGER.debug("failed to connect in self.mower.connect")
                 raise UpdateFailed("Failed to connect")
         except (TimeoutError, BleakError) as ex:
+            _LOGGER.debug("except hit from ble connect")
             raise UpdateFailed("Failed to connect") from ex
 
     async def _async_update_data(self) -> dict[str, bytes]:

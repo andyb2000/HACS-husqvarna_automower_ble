@@ -3,16 +3,16 @@
   "name": "Husqvarna Automower BLE",
   "bluetooth": [
     {
-      "service_uuid": "98bd0001-0b0e-421a-84e5-ddbf75dc6de4",
-      "connectable": true
+      "connectable": true,
+      "service_uuid": "98bd0001-0b0e-421a-84e5-ddbf75dc6de4"
     }
   ],
   "codeowners": ["@alistair23", "@andyb2000"],
   "config_flow": true,
   "dependencies": ["bluetooth_adapters"],
   "documentation": "https://github.com/andyb2000/HACS-husqvarna_automower_ble/",
-  "issue_tracker": "https://github.com/andyb2000/HACS-husqvarna_automower_ble/issues",
   "iot_class": "local_polling",
-  "requirements": ["git+https://github.com/alistair23/AutoMower-BLE.git@main#automower_ble==0.2.0"],
-  "version": "0.0.9"
+  "issue_tracker": "https://github.com/andyb2000/HACS-husqvarna_automower_ble/issues",
+  "requirements": ["automower_ble @ git+https://github.com/alistair23/AutoMower-BLE.git@main"],
+  "version": "0.1.1"
 }
