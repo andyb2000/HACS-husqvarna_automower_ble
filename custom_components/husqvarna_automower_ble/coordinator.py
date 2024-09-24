@@ -130,11 +130,11 @@ class HusqvarnaCoordinator(DataUpdateCoordinator[dict[str, bytes]]):
                 data["statistics"] = await self.mower.command("GetAllStatistics")
                 _LOGGER.debug("statuses: " + str(data["statistics"]))
             except ValueError as e:
-            if "Data length mismatch" in str(e):
-                _LOGGER.debug("Known fail on GetAllStatistics - skipping")
-                data["statistics"] = None
-            else:
-                raise  # Re-raise the exception if it's not the known ValueError
+                if "Data length mismatch" in str(e):
+                    _LOGGER.debug("Known fail on GetAllStatistics - skipping")
+                    data["statistics"] = None
+                else:
+                    raise  # Re-raise the exception if it's not the known ValueError
 
             data["operatorstate"] = await self.mower.command("IsOperatorLoggedIn")
             _LOGGER.debug("IsOperatorLoggedIn: " + str(data["operatorstate"]))
