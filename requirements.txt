@@ -1,5 +1,5 @@
 automower-ble==0.1.33
-homeassistant>=2024.3.3
+homeassistant>=2024.9.1
 pip>=24.1,<25
 ruff==0.5.0
 pre-commit
