@@ -126,3 +126,4 @@ An automower entity is created that allows for the main control of the mower, st
 In addition to that, extra sensors are created that allow you to monitor battery status, next mowing time and overall cutting details:
 
 ![image](https://github.com/user-attachments/assets/ae4c2d43-8ec3-4cb3-8f61-beb5dd3442f5)
+
