@@ -12,3 +12,4 @@ jobs:
     steps:
       - uses: "actions/checkout@v3"
       - uses: home-assistant/core/tree/dev/script%2Fhassfest
+
