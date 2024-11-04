@@ -91,8 +91,12 @@ class AutomowerLawnMower(HusqvarnaAutomowerBleEntity, LawnMowerEntity):
                 match activity:
                     case "1" | "5":
                         return LawnMowerActivity.DOCKED
-                    case "2" | "3" | "4":
-                        return LawnMowerActivity.MOWING 
+                    case "2" | "3":
+                        return LawnMowerActivity.MOWING
+                    case "4":
+                        return LawnMowerActivity.RETURNING
+                    case "6":
+                        return LawnMowerActivity.ERROR
         return LawnMowerActivity.ERROR
 
     @callback
