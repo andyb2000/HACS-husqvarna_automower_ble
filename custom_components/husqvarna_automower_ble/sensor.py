@@ -268,10 +268,11 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
             return self._attr_native_value
         except KeyError:
             self._attr_native_value = None
-            _LOGGER.error(
-                "%s not a valid attribute (in _update_attr)",
-                self.entity_description.key,
-            )
+            #_LOGGER.error(
+            #    "%s not a valid attribute (in _update_attr)",
+            #    self.entity_description.key,
+            #)
+            # Removing logger to silently switch to alternative method
             # pass to allow it to try the next method
             pass
         try:
