@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import logging
 
+import asyncio
+
 from automower_ble.mower import Mower
 from bleak import BleakError
 from bleak_retry_connector import close_stale_connections_by_address, get_device
@@ -34,9 +36,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     LOGGER.info(STARTUP_MESSAGE)
 
     if pin != 0:
-        mower = Mower(channel_id, address, pin)
+        mower = await asyncio.to_thread(Mower, channel_id, address, pin)
     else:
-        mower = Mower(channel_id, address)
+        mower = await asyncio.to_thread(Mower, channel_id, address)
 
     await close_stale_connections_by_address(address)
 
@@ -49,6 +51,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             raise ConfigEntryNotReady("Couldn't find device")
     except (BleakError, TimeoutError) as ex:
         raise ConfigEntryNotReady("Couldn't find device") from ex
+        return
 
     LOGGER.debug("connected and paired")
 

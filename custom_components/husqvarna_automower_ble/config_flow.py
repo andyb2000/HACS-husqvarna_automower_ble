@@ -6,6 +6,8 @@ import logging
 import random
 from typing import Any
 
+import asyncio
+
 from automower_ble.mower import Mower
 import voluptuous as vol
 
@@ -69,9 +71,12 @@ class HusqvarnaAutomowerBleConfigFlow(ConfigFlow, domain=DOMAIN):
         channel_id = random.randint(1, 0xFFFFFFFF)
 
         try:
-            (manufacture, device_type, model) = await Mower(
-                channel_id, self.address
-            ).probe_gatts(device)
+            _LOGGER.debug("config_flow auto - connecting to %s with channel ID %s and pin %s", self.address, str(channel_id), str(self.pin))
+            if self.pin != 0:
+                mower = await asyncio.to_thread(Mower, channel_id, self.address, self.pin)
+            else:
+                mower = await asyncio.to_thread(Mower, channel_id, self.address)
+            manufacture, device_type, model = await mower.probe_gatts(device)
         except (BleakError, TimeoutError) as exception:
             raise AbortFlow(
                 "cannot_connect", description_placeholders={"error": str(exception)}

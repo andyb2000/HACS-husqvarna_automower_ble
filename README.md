@@ -129,7 +129,10 @@ In addition to that, extra sensors are created that allow you to monitor battery
 
 # Release notes/updates
 
-25/Oct/24
-	- Added new return to dock status as implement in HA, so bumping required release for HA up to 2024.9
-	- Hassfest validation still fails due to formatting of the requirements in custom_components, see https://github.com/home-assistant/actions/issues/92
-
+| Release Date | Changes |
+|-----:|-----------|
+| 25/Oct/24 | - Added new return to dock status as implement in HA, so bumping required release for HA up to 2024.9
+ - Hassfest validation still fails due to formatting of the requirements in custom_components, see https://github.com/home-assistant/actions/issues/92 |
+| 7/Apr/24 | - Updated README
+ - 
+| 12/Jun/25 | - Various bugfixes to allow for newer Home Assistant versions (2025.3.3 and above) and to allow config flow fixes since blocking issues.
