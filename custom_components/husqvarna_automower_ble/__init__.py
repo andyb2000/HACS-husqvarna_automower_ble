@@ -36,10 +36,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     LOGGER.info(STARTUP_MESSAGE)
 
     if pin != 0:
-        mower = Mower(channel_id, address, pin)
         mower = await asyncio.to_thread(Mower, channel_id, address, pin)
     else:
-        await asyncio.to_thread(Mower, channel_id, address)
+        mower = await asyncio.to_thread(Mower, channel_id, address)
 
     await close_stale_connections_by_address(address)
 
