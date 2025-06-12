@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import logging
 
+import asyncio
+
 from automower_ble.mower import Mower
 from bleak import BleakError
 from bleak_retry_connector import close_stale_connections_by_address, get_device
@@ -35,8 +37,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     if pin != 0:
         mower = Mower(channel_id, address, pin)
+        mower = await asyncio.to_thread(Mower, channel_id, address, pin)
     else:
-        mower = Mower(channel_id, address)
+        await asyncio.to_thread(Mower, channel_id, address)
 
     await close_stale_connections_by_address(address)
 
