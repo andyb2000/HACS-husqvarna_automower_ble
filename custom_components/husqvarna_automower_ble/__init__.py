@@ -51,6 +51,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             raise ConfigEntryNotReady("Couldn't find device")
     except (BleakError, TimeoutError) as ex:
         raise ConfigEntryNotReady("Couldn't find device") from ex
+        return
 
     LOGGER.debug("connected and paired")
 
