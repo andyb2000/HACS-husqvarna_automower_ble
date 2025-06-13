@@ -19,7 +19,7 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.helpers.device_registry import format_mac
 from datetime import datetime, timedelta
 
-from .const import DOMAIN, MANUFACTURER
+from .const import DOMAIN, MANUFACTURER, ERROR_CODE_DESCRIPTIONS
 from .coordinator import HusqvarnaCoordinator
 
 _LOGGER = logging.getLogger(__name__)
@@ -116,6 +116,15 @@ MOWER_SENSORS = [
         icon="mdi:alert-decagram",
     ),
     SensorEntityDescription(
+        name="Error description",
+        key="errorDescription",
+        unit_of_measurement=None,
+        device_class=None,
+        state_class=None,
+        entity_category=EntityCategory.DIAGNOSTIC,
+        icon="mdi:alert-decagram",
+    ),
+    SensorEntityDescription(
         name="Total number of messages in the queue",
         key="NumberOfMessages",
         unit_of_measurement=None,
@@ -185,6 +194,20 @@ class AutomowerSensorEntity(CoordinatorEntity, SensorEntity):
         """Return the state of the sensor."""
         _LOGGER.debug("in state sensor code")
         self._attr_native_value = None
+        # Special case for errorDescription
+        if self.entity_description.key == "errorDescription":
+            try:
+                error_code = self.coordinator.data.get("errorCode", None)
+                if error_code is None:
+                    stats_dict = self.coordinator.data.get("statistics", {})
+                    error_code = stats_dict.get("errorCode", None)
+                if error_code is not None:
+                    self._attr_native_value = ERROR_CODE_DESCRIPTIONS.get(error_code, f"Unknown error ({error_code})")
+                    self._attr_available = True
+                    return self._attr_native_value
+            except Exception as e:
+                _LOGGER.error("Failed to map error code: %s", e)
+                return "Error"
         try:
             self._attr_native_value = self.coordinator.data[self.entity_description.key]
             self._attr_available = self._attr_native_value is not None
