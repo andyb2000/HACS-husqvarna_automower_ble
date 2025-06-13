@@ -14,7 +14,7 @@ STARTUP_MESSAGE = f"""
 Custom component by @andyb2000
 -------------------------------------------------------------------
 """
-ERROR_CODES = {
+ERROR_CODE_DESCRIPTIONS = {
     0: "No error",
     1: "Outside working area",
     2: "No loop signal",
