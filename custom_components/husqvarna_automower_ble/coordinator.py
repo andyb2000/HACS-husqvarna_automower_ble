@@ -59,7 +59,7 @@ class HusqvarnaCoordinator(DataUpdateCoordinator[dict[str, bytes]]):
             await super().async_shutdown()
             if self.mower.is_connected():
                 await self.mower.disconnect()
-        except (TimeoutError, BleakError) as ex:
+        except (TimeoutError, BleakError):
             _LOGGER.debug("except hit from ble disconnect")
 
     async def _async_find_device(self):
