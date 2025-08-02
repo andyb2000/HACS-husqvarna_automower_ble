@@ -76,7 +76,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     try:
         LOGGER.debug("awaiting _connect_task outcome")
         mower = await _connect_task
-    except Exception:
+    except Exception as ex:
         LOGGER.warning("Mower connect task failed: %s", repr(ex))
         _connect_task = None  # Reset so future retries can work
         raise
