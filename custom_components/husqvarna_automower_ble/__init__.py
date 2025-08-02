@@ -30,9 +30,10 @@ PLATFORMS: list[Platform] = [
 # Global lock and task to ensure connect() runs once
 _connect_lock = asyncio.Lock()
 _connect_task = None
+_mower = None
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    global _connect_task
+    global _connect_task, _mower
     """Set up Husqvarna Autoconnect Bluetooth from a config entry."""
     address = entry.data[CONF_ADDRESS]
     pin = entry.data[CONF_PIN]
@@ -40,35 +41,42 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     LOGGER.info(STARTUP_MESSAGE)
 
-    if pin != 0:
-        mower = await asyncio.to_thread(Mower, channel_id, address, pin)
-    else:
-        mower = await asyncio.to_thread(Mower, channel_id, address)
-
-    await close_stale_connections_by_address(address)
-
     LOGGER.debug("connecting to %s with channel ID %s and pin %s", address, str(channel_id), str(pin))
     device = bluetooth.async_ble_device_from_address(hass, address, connectable=True)
     if device is None:
         device = await get_device(address)
 
     async def do_connect():
+        nonlocal _mower
+        if pin != 0:
+            _mower = await asyncio.to_thread(Mower, channel_id, address, pin)
+        else:
+            _mower = await asyncio.to_thread(Mower, channel_id, address)
+        await close_stale_connections_by_address(address)
         try:
-            if not await mower.connect(device):
+            if not await _mower.connect(device):
                 raise ConfigEntryNotReady("Couldn't find device")
         except (BleakError, TimeoutError) as ex:
             raise ConfigEntryNotReady("Couldn't find device") from ex
-
         LOGGER.debug("connected and paired")
-        return mower
+        return _mower
 
-    # Guard against parallel connection attempts
+    # Ensure only one connect() task runs
+    LOGGER.debug("starting _connect_lock do_connect task")
     async with _connect_lock:
         if _connect_task is None:
             _connect_task = asyncio.create_task(do_connect())
 
-    mower = await _connect_task
+    # Wait for connect result
+    try:
+        LOGGER.debug("awaiting _connect_task outcome")
+        mower = await _connect_task
+    except Exception:
+        LOGGER.debug("failed _connect_task so reset to try again")
+        _connect_task = None  # Reset so future retries can work
+        raise
 
+    LOGGER.debug("connect worked, now getting model, etc.")
     model = await mower.get_model()
     serial = await mower.command("GetSerialNumber")
     LOGGER.info("Connected to Automower: %s", model)
