@@ -47,7 +47,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         device = await get_device(address)
 
     async def do_connect():
-        nonlocal _mower
+        global _mower
         if pin != 0:
             _mower = await asyncio.to_thread(Mower, channel_id, address, pin)
         else:
