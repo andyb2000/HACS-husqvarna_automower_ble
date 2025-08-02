@@ -27,7 +27,12 @@ PLATFORMS: list[Platform] = [
     Platform.SENSOR,
 ]
 
+# Global lock and task to ensure connect() runs once
+_connect_lock = asyncio.Lock()
+_connect_task = None
+
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+    global _connect_task
     """Set up Husqvarna Autoconnect Bluetooth from a config entry."""
     address = entry.data[CONF_ADDRESS]
     pin = entry.data[CONF_PIN]
@@ -43,17 +48,26 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     await close_stale_connections_by_address(address)
 
     LOGGER.debug("connecting to %s with channel ID %s and pin %s", address, str(channel_id), str(pin))
-    device = bluetooth.async_ble_device_from_address(
-        hass, address, connectable=True
-    ) or await get_device(address)
-    try:
-        if not await mower.connect(device):
-            raise ConfigEntryNotReady("Couldn't find device")
-    except (BleakError, TimeoutError) as ex:
-        raise ConfigEntryNotReady("Couldn't find device") from ex
-        return
+    device = bluetooth.async_ble_device_from_address(hass, address, connectable=True)
+    if device is None:
+        device = await get_device(address)
 
-    LOGGER.debug("connected and paired")
+    async def do_connect():
+        try:
+            if not await mower.connect(device):
+                raise ConfigEntryNotReady("Couldn't find device")
+        except (BleakError, TimeoutError) as ex:
+            raise ConfigEntryNotReady("Couldn't find device") from ex
+
+        LOGGER.debug("connected and paired")
+        return mower
+
+    # Guard against parallel connection attempts
+    async with _connect_lock:
+        if _connect_task is None:
+            _connect_task = asyncio.create_task(do_connect())
+
+    mower = await _connect_task
 
     model = await mower.get_model()
     serial = await mower.command("GetSerialNumber")
