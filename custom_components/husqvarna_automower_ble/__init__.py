@@ -6,6 +6,8 @@ import logging
 
 import asyncio
 
+import traceback
+
 from automower_ble.mower import Mower
 from bleak import BleakError
 from bleak_retry_connector import close_stale_connections_by_address, get_device
