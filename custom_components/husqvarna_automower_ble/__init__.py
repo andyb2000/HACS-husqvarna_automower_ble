@@ -58,12 +58,14 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         try:
             if not await _mower.connect(device):
                 LOGGER.error("Mower connect() returned False — device not found or pairing failed.")
+                await _mower.disconnect()
                 raise ConfigEntryNotReady("Couldn't find device")
         except (BleakError, TimeoutError) as ex:
             LOGGER.error("BLE connection failed: %s", ex)
             raise ConfigEntryNotReady("Couldn't find device") from ex
         except Exception as ex:
             LOGGER.error("Unexpected error in mower.connect(): %s", traceback.format_exc())
+            await _mower.disconnect()
             raise ConfigEntryNotReady("Unexpected error during connect()") from ex
         LOGGER.debug("connected and paired")
         return _mower
@@ -80,6 +82,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         mower = await _connect_task
     except Exception as ex:
         LOGGER.warning("Mower connect task failed: %s", repr(ex))
+        await mower.disconnect()
         _connect_task = None  # Reset so future retries can work
         raise
 
